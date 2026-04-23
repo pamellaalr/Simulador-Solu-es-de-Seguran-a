@@ -1,0 +1,186 @@
+
+<style>
+.l{cursor:pointer}
+.l rect,.ss rect{transition:fill .35s,stroke .35s}
+.l text,.ss text{transition:fill .35s}
+.l:hover rect{opacity:.88}
+.l{--fc:#E1F5EE;--sc:#1D9E75;--tc:#085041;--dc:#0F6E56}
+.l.fail{--fc:#FCEBEB;--sc:#E24B4A;--tc:#501313;--dc:#791F1F}
+.l.cas{--fc:#FAEEDA;--sc:#BA7517;--tc:#412402;--dc:#633806}
+.l rect{fill:var(--fc);stroke:var(--sc);stroke-width:.5}
+.l .a{fill:var(--tc);font-family:var(--font-sans);font-size:14px;font-weight:500}
+.l .b{fill:var(--dc);font-family:var(--font-sans);font-size:12px}
+.ss{--fc:#E1F5EE;--sc:#1D9E75;--tc:#085041;--dc:#0F6E56}
+.ss.fail{--fc:#FCEBEB;--sc:#E24B4A;--tc:#501313;--dc:#791F1F}
+.ss rect{fill:var(--fc);stroke:var(--sc);stroke-width:.5}
+.ss .a{fill:var(--tc);font-family:var(--font-sans);font-size:14px;font-weight:500}
+.ss .b{fill:var(--dc);font-family:var(--font-sans);font-size:12px}
+#rf{fill:#E1F5EE;stroke:#1D9E75;stroke-width:.5;transition:fill .35s,stroke .35s}
+#rf.fail{fill:#FCEBEB;stroke:#E24B4A}
+@media(prefers-color-scheme:dark){
+  .l{--fc:#085041;--sc:#5DCAA5;--tc:#E1F5EE;--dc:#9FE1CB}
+  .l.fail{--fc:#501313;--sc:#F09595;--tc:#FCEBEB;--dc:#F7C1C1}
+  .l.cas{--fc:#412402;--sc:#EF9F27;--tc:#FAEEDA;--dc:#FAC775}
+  .ss{--fc:#085041;--sc:#5DCAA5;--tc:#E1F5EE;--dc:#9FE1CB}
+  .ss.fail{--fc:#501313;--sc:#F09595;--tc:#FCEBEB;--dc:#F7C1C1}
+  #rf{fill:#085041;stroke:#5DCAA5}
+  #rf.fail{fill:#501313;stroke:#F09595}
+}
+.panel{border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;margin-top:10px}
+.pt{font-size:14px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px}
+.pb{font-size:13px;color:var(--color-text-secondary);margin:0;line-height:1.55}
+.pa{font-size:12px;color:var(--color-text-tertiary);margin:8px 0 0;font-style:italic}
+.btrow{display:flex;align-items:center;justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px}
+.leg{display:flex;gap:14px;flex-wrap:wrap}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.ld{width:10px;height:10px;border-radius:2px}
+.rst{font-size:12px;cursor:pointer;color:var(--color-text-info);border:.5px solid var(--color-border-info);border-radius:var(--border-radius-md);padding:3px 10px;background:none}
+.rst:hover{background:var(--color-background-info)}
+</style>
+
+<p style="font-size:12px;color:var(--color-text-tertiary);margin:0 0 6px">Clique em qualquer camada para simular uma falha e ver o efeito em cascata</p>
+
+<svg width="100%" viewBox="0 0 680 420" role="img">
+<title>Interdependência das 6 camadas de infraestrutura da AGU</title>
+<desc>Diagrama em forma de prédio com 6 andares empilhados: geradores na fundação, rede no térreo, storage e firewall no 1º andar, backup e balanceador no 2º andar, SuperSapiens no topo.</desc>
+
+<polygon id="rf" points="340,6 192,28 488,28" stroke-linejoin="round"/>
+
+<g id="l-ss" class="ss">
+  <rect x="192" y="28" width="296" height="56" rx="0"/>
+  <text class="a" x="340" y="47" text-anchor="middle" dominant-baseline="central">SuperSapiens</text>
+  <text class="b" x="340" y="66" text-anchor="middle" dominant-baseline="central">18.000 usuários/dia — missão da AGU</text>
+</g>
+
+<line x1="192" y1="84" x2="55" y2="92" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+<line x1="488" y1="84" x2="625" y2="92" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+
+<g id="l-backup" class="l" onclick="clickL('backup')">
+  <rect x="55" y="92" width="270" height="66" rx="6"/>
+  <text class="a" x="190" y="114" text-anchor="middle" dominant-baseline="central">Backup corporativo</text>
+  <text class="b" x="190" y="136" text-anchor="middle" dominant-baseline="central">Cópia dos dados em local separado</text>
+</g>
+
+<g id="l-adc" class="l" onclick="clickL('adc')">
+  <rect x="355" y="92" width="270" height="66" rx="6"/>
+  <text class="a" x="490" y="114" text-anchor="middle" dominant-baseline="central">Balanceador ADC/WAF</text>
+  <text class="b" x="490" y="136" text-anchor="middle" dominant-baseline="central">Equilibra carga e bloqueia ataques</text>
+</g>
+
+<g id="l-storage" class="l" onclick="clickL('storage')">
+  <rect x="55" y="168" width="270" height="66" rx="6"/>
+  <text class="a" x="190" y="190" text-anchor="middle" dominant-baseline="central">Storage All-Flash</text>
+  <text class="b" x="190" y="212" text-anchor="middle" dominant-baseline="central">Armazena 1 bilhão de documentos</text>
+</g>
+
+<g id="l-firewall" class="l" onclick="clickL('firewall')">
+  <rect x="355" y="168" width="270" height="66" rx="6"/>
+  <text class="a" x="490" y="190" text-anchor="middle" dominant-baseline="central">Firewall NGFW</text>
+  <text class="b" x="490" y="212" text-anchor="middle" dominant-baseline="central">Barreira contra invasores externos</text>
+</g>
+
+<g id="l-switches" class="l" onclick="clickL('switches')">
+  <rect x="55" y="244" width="570" height="66" rx="6"/>
+  <text class="a" x="340" y="264" text-anchor="middle" dominant-baseline="central">Switches e cabeamento óptico — rede de dados</text>
+  <text class="b" x="340" y="286" text-anchor="middle" dominant-baseline="central">Conecta todos os sistemas entre si e com os usuários da AGU</text>
+</g>
+
+<g id="l-geradores" class="l" onclick="clickL('geradores')">
+  <rect x="55" y="320" width="570" height="82" rx="6"/>
+  <text class="a" x="340" y="348" text-anchor="middle" dominant-baseline="central">Geradores de energia</text>
+  <text class="b" x="340" y="373" text-anchor="middle" dominant-baseline="central">Sem energia, todos os demais sistemas param ao mesmo tempo</text>
+</g>
+
+<line x1="40" y1="408" x2="640" y2="408" stroke="var(--color-border-tertiary)" stroke-width="0.5"/>
+
+<text x="629" y="125" font-family="var(--font-sans)" font-size="9" fill="var(--color-text-tertiary)" opacity="0.7">Proteção</text>
+<text x="629" y="201" font-family="var(--font-sans)" font-size="9" fill="var(--color-text-tertiary)" opacity="0.7">Dados</text>
+<text x="629" y="277" font-family="var(--font-sans)" font-size="9" fill="var(--color-text-tertiary)" opacity="0.7">Rede</text>
+<text x="629" y="361" font-family="var(--font-sans)" font-size="9" fill="var(--color-text-tertiary)" opacity="0.7">Energia</text>
+</svg>
+
+<div class="panel">
+  <p class="pt" id="pt">Clique em qualquer camada para ver o que acontece quando ela falha</p>
+  <p class="pb" id="pb">Cada camada sustenta as que estão acima. A falha em qualquer ponto se propaga para cima e compromete o sistema inteiro.</p>
+  <p class="pa" id="pa"></p>
+</div>
+
+<div class="btrow">
+  <div class="leg">
+    <div class="li"><div class="ld" style="background:#1D9E75"></div>Operando normalmente</div>
+    <div class="li"><div class="ld" style="background:#E24B4A"></div>Falha simulada</div>
+    <div class="li"><div class="ld" style="background:#BA7517"></div>Afetado em cascata</div>
+  </div>
+  <button class="rst" onclick="resetAll()">↺ Restaurar tudo</button>
+</div>
+
+<script>
+const D={
+  geradores:{
+    t:'Geradores falham → apagão total: todos os sistemas param ao mesmo tempo',
+    b:'Sem energia elétrica, todos os outros 5 componentes desligam em segundos. Storage, backup, firewall, balanceador e rede ficam sem energia. O SuperSapiens desaparece da tela dos 18.000 usuários. Prazos judiciais não são suspensos por falhas técnicas — a AGU simplesmente para de funcionar.',
+    a:'Como a energia elétrica de um hospital: sem ela, a UTI, o centro cirúrgico, os prontuários e os elevadores param juntos, de uma vez.',
+    c:['switches','storage','firewall','backup','adc','ss']
+  },
+  switches:{
+    t:'Rede cai → todos os componentes ficam ilhados e inacessíveis',
+    b:'Storage, backup, firewall e balanceador continuam "ligados", mas não conseguem se comunicar entre si nem chegar aos usuários. Todos os sistemas existem, mas ninguém e nada consegue acessar ou usar nenhum deles.',
+    a:'Como fechar todas as estradas de uma cidade: os prédios existem, os serviços estão lá, mas ninguém consegue chegar a nenhum deles.',
+    c:['storage','firewall','backup','adc','ss']
+  },
+  storage:{
+    t:'Storage esgota → sistema trava; dados de 35 milhões de processos em risco',
+    b:'Já em 72% de ocupação, crescendo 14 TiB/mês. Quando esgotar, o SuperSapiens não grava mais nenhuma intimação, petição ou documento. Sem backup operacional junto, uma falha física nesse momento causa perda definitiva e irrecuperável de todo o acervo digital da AGU.',
+    a:'Como um cartório que lotou o arquivo: sem novas gavetas, nenhum processo entra — e se o arquivo pegar fogo sem uma cópia em outro lugar, está tudo perdido para sempre.',
+    c:['backup','ss']
+  },
+  firewall:{
+    t:'Firewall falha → porta aberta para invasores e ransomware',
+    b:'Sem o firewall, qualquer criminoso pode acessar o storage, o backup e o SuperSapiens pela internet. Um ataque de ransomware pode criptografar todos os 35 milhões de processos e exigir resgate milionário — ou simplesmente destruir tudo, sem recuperação.',
+    a:'Como remover o segurança e a porta blindada de um banco: o cofre continua lá, mas qualquer pessoa pode entrar, levar ou destruir o conteúdo.',
+    c:['storage','backup','ss']
+  },
+  backup:{
+    t:'Backup falha → qualquer acidente vira catástrofe permanente e irrecuperável',
+    b:'Sem backup, qualquer falha de hardware, erro humano, incêndio ou ataque de ransomware causa perda definitiva de documentos judiciais. Hoje, 35 milhões de processos e 1 bilhão de componentes digitais estão completamente desprotegidos contra qualquer tipo de perda.',
+    a:'Como guardar o único exemplar de todos os processos físicos num único arquivo sem xerox: um incêndio, e está tudo perdido para sempre — sem nenhuma recuperação possível.',
+    c:['ss']
+  },
+  adc:{
+    t:'Balanceador falha → sistema vulnerável à queda de qualquer datacenter',
+    b:'Sem o balanceador, a AGU não consegue distribuir o tráfego entre os Datacenters Sede I e Sede III. Se qualquer um dos dois tiver qualquer problema, o SuperSapiens fica completamente indisponível para todos os 18.000 usuários — sem nenhuma alternativa.',
+    a:'Como uma rodovia de mão única sem desvio: se o caminho principal bloquear, todo o tráfego para. Não há como redirecionar, não há alternativa.',
+    c:['ss']
+  }
+};
+function clickL(id){
+  resetAll(false);
+  const el=document.getElementById('l-'+id);
+  if(el)el.classList.add('fail');
+  D[id].c.forEach(c=>{
+    if(c==='ss')return;
+    const t=document.getElementById('l-'+c);
+    if(t){t.classList.remove('fail');t.classList.add('cas')}
+  });
+  if(D[id].c.includes('ss')){
+    const ss=document.getElementById('l-ss');
+    ss.classList.remove('cas');ss.classList.add('fail');
+    document.getElementById('rf').classList.add('fail');
+  }
+  document.getElementById('pt').textContent=D[id].t;
+  document.getElementById('pb').textContent=D[id].b;
+  document.getElementById('pa').textContent='💡 '+D[id].a;
+}
+function resetAll(upd=true){
+  ['geradores','switches','storage','firewall','backup','adc','ss'].forEach(id=>{
+    const el=document.getElementById('l-'+id);
+    if(el)el.classList.remove('fail','cas');
+  });
+  document.getElementById('rf').classList.remove('fail');
+  if(upd){
+    document.getElementById('pt').textContent='Clique em qualquer camada para ver o que acontece quando ela falha';
+    document.getElementById('pb').textContent='Cada camada sustenta as que estão acima. A falha em qualquer ponto se propaga para cima e compromete o sistema inteiro.';
+    document.getElementById('pa').textContent='';
+  }
+}
+</script>
